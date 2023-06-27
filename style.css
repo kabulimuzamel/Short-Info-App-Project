@@ -1,11 +1,22 @@
+#result-container {
+    position: relative;
+}
+
+
 
 .logo {
-    height: 6rem;
-    width: 6rem;
+    height: 4rem;
+    width: 4rem;
+    position: relative;
+        top: -8px;
 }
 
 #search-bar {
     width: 37rem;
+}
+
+main {
+    height: fit-content;
 }
 
 footer {
@@ -13,4 +24,32 @@ footer {
     bottom: 0;
     width: 100%;
     height: 15rem;
+}
+
+.card {
+    width: 31rem;
+}
+
+.card-header {
+    height: 9rem;
+}
+
+.card-img-bottom {
+    height: 33rem;
+    object-fit: cover;
+}
+
+.card-subtitle {
+    font-weight: bold;
+}
+
+.icon {
+    height: 2rem;
+    width: 2rem;
+}
+
+#clear-button {
+    position: absolute;
+        top: 1px;
+        right: 10px;
 }

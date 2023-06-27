@@ -15,42 +15,45 @@
     <script src="./app.js"></script>
 </head>
 <body>
-    <header class="bg-dark">
-        <nav class="navbar navbar-expand">
-            <div class="container">
-                <a href="" class="navbar-brand"><img class="logo" src="https://img.icons8.com/?size=512&id=huXEI_cOP4-c&format=png" alt=""></a>
+    <header class="bg-dark p-4">
+        <nav>
+            <div class="container d-flex align-items-center justify-content-between">
+                <img class="logo navbar-brand" src="https://img.icons8.com/?size=512&id=huXEI_cOP4-c&format=png" alt="">
                 <h1 class="text-bg-dark">Short Info, Good to know!</h1>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="" class="nav-link text-bg-dark">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link text-bg-dark">About Us</a>
-                    </li>
-                </ul>
+                <div></div>
             </div>
         </nav>
     </header>
     <main>
-        <div id="result-container" class="container"></div>
-    </main>
-    <footer class="bg-dark">
-        <nav class="navbar container">
-            <h3 class="text-bg-dark mt-4">CONTACT INFORMATION</h3>
-            <div class="container">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="" class="nav-link text-bg-dark">PHONE</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link text-bg-dark">ADDRESS</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link text-bg-dark">SERVICE</a>
-                    </li>
-                </ul>
+        <div id="search-bar" class="container mt-5">
+            <form>
+                <div class="input-group">
+                    <div class="form-floating">
+                        <input type="text" id="searched-place" class="form-control border-1 border-primary" placeholder="Search here" />
+                        <label for="text" class="form-label text-primary">Search the country or its city you want to know about!</label>
+                    </div>
+                    <button type="submit" id="search-button" class="btn btn-outline-primary"><img src="https://img.icons8.com/?size=512&id=44045&format=png" class="icon"></button>
+                </div>
+            </form>
+        </div>
+        <div id="result-container" class="container d-flex justify-content-center flex-wrap my-5">
+            <button id="clear-button" type="button" class="btn btn-outline-danger">Clear All</button>
+        </div>
+
+        <div class="modal" id="alertModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Alert</h5>
+                        <button type="button" class="btn-close modalCloseButton" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="alertMessage"></p>
+                    </div>
+                </div>
             </div>
-        </nav>
-    </footer>
+        </div>
+
+    </main>
 </body>
 </html>

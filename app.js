@@ -1,183 +1,123 @@
 $(document).ready(() => {
-    const searchResult = {}
-    const $main = $('main');
+    const searchedPlace = [];
     const $resultContainer = $('#result-container');
+    const $searchBar = $('#search-bar');
+    const $searchButton = $('#search-button');
+    const $clearButton = $('#clear-button');
+    const $searchedInput = $('#searched-place');
     let userInput;
-    let isValidSearch = true;
     
-    
-    generateSearchBar();
-        const $searchBar = $('#search-bar');
-        const $searchButton = $('#search-button');
-        const $clearButton = $('#clear-button');
-        const $searchedInput = $('#searched-place');
-
-    $clearButton.hide()
+    $clearButton.hide();
 
     $searchButton.on('click', (e) => {
         e.preventDefault();
         userInput = $searchedInput.val();
         countryInfoFinder();
-        $clearButton.show();
+        console.log(searchedPlace)
+    });
+
+    $clearButton.on('click', (e) => {
+        e.preventDefault();
+        $('.resultCard').remove();
+        searchedPlace.length = 0;
+        $clearButton.hide();
     })
 
-    function generateSearchBar() {
-        $main.prepend(`
-            <div id="search-bar" class="container mt-5">
-                <form>
-                    <div class="input-group">
-                        <div class="form-floating">
-                            <input type="text" id="searched-place" class="form-control" placeholder="Search here"/>
-                            <label for="text" class="form-label">Search the city or country you want to know about!</label>
-                        </div>
-                        <button type="submit" id="search-button" class="btn btn-outline-primary" >Search</button>
-                        <button id="clear-button" class="btn btn-outline-danger">Clear all</button>      
-                    </div>
-                </form>
-            </div>`
-            )
+    function showAlert(message) {
+        $('#alertMessage').text(message)
+        $('#alertModal').modal('show')
+        $('.modalCloseButton').on('click', () => {
+            $('#alertModal').modal('hide')
+        })
     }
 
+    function cardGenerator(className, res) {
+        return `<div class="card resultCard ${className}Card mx-3 my-3">
+                    <div class='card-header overflow-auto'>
+                        <h2 class="card-title cardTitle${className}">${res[0].name}</h2>
+                        <button style='position: absolute; top: 10px; right: 10px' type="button" class='btn-close closeButton${className}' aria-label="Close"></button>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            ${res[0].name}, located in ${res[0].region}, has a population of approximately ${(res[0].population / 1000).toFixed(3)} million and a population growth rate of ${res[0].pop_growth}%. The country spans a surface area of ${res[0].surface_area} square kilometers with a population density of ${res[0].pop_density} people per square kilometer. ${res[0].capital} serves as its capital city. ${res[0].name}'s GDP stands at ${(res[0].gdp / 1000).toFixed(3)} billion dollars, with a GDP growth rate of ${res[0].gdp_growth}%. The country's GDP per capita is ${res[0].gdp_per_capita}, and its currency is called the ${res[0].currency.name} (${res[0].currency.code}). The sex ratio is ${res[0].sex_ratio}, and the fertility rate is ${res[0].fertility}. Life expectancy for males is ${res[0].life_expectancy_male} years, while for females, it is ${res[0].life_expectancy_female} years. The unemployment rate in ${res[0].name} is ${res[0].unemployment}%, and the urban population constitutes ${res[0].urban_population}% of the total population. Forested areas cover ${res[0].forested_area}% of the country, and ${res[0].internet_users}% of the population uses the internet.
+                        </p>                        
+                    </div>
+                </div>`
+    }
 
-    function countryInfoFinder() {
-        const countryUrl = `https://api.api-ninjas.com/v1/country?name=${userInput}`;
-        const importantInfoKeys = [
-					'gdp',
-                    'gdp_growth',
-					'sex_ratio',
-					'surface_area',
-					'life_expectancy_male',
-					'unemployment',
-					'capital',
-					'life_expectancy_female',
-					'population',
-                    'pop_growth',
-                    'fertility',
-                    'urban_population',
-					'region',
-                    'forested_area',
-					'pop_density',
-					'internet_users',
-					'gdp_per_capita',
-					'currency',
-				]
-        fetch(countryUrl, {
+    function historyEventGenerator(historyEventURL, className) {
+        fetch(historyEventURL, {
             method: 'GET',
             headers: {
                 'X-Api-Key': 'Aof+BUX/KoGO4Qilsx47mg==4m6ZlgtM09HzXxXf',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
         })
-            .then(res => res.json())
-            .then(res => {
-                if(userInput.trim() === '') {
-                    alert('Please enter something')
-                } else {
-                    searchResult[res[0].name] = {};
-                    importantInfoKeys.forEach(key => {
-                        searchResult[res[0].name][key] = res[0][key];
-                    });
-                    historyInfoFinder();
-                    imgFinder();
-                    console.log(searchResult)
-                }
+            .then((res) => res.json())
+            .then((event) => {
+                $(`.cardTitle${className}`).after(`
+                    <span class='card-subtitle'>
+                        Did you know that on ${event[0].day}/${event[0].month}/${event[0].year} ${event[0].event}
+                    </span>
+                    `)
             })
-            .catch(() => {
-                isValidSearch = false;
-                alert('Wrong Search');
-            });
+        
     }
 
-    function historyInfoFinder() {
-        if (isValidSearch) {
-            const historyEventURL = `https://api.api-ninjas.com/v1/historicalevents?text=${userInput}`;
+    function imgGenerator(imgUrl, className) {
+        fetch(imgUrl)
+            .then((res) => res.json())
+            .then((img) => {
+                $(`.${className}Card`).append(`<img src=${img.urls.regular} class="card-img-bottom"/>`)
+            })
+    }
 
-            fetch(historyEventURL, {
+    function cardCloseButtonGenerator(className, searchedPlace) {
+        $(`.closeButton${className}`).on('click', (e) => {
+            e.preventDefault()
+            $(`.${className}Card`).remove()
+            searchedPlace.splice(
+                searchedPlace.indexOf(className),
+                1
+            )
+        })
+    }
+
+    function countryInfoFinder() {
+        userInput = encodeURIComponent(userInput)
+        const countryUrl = `https://api.api-ninjas.com/v1/country?name=${userInput}`;
+        const historyEventURL = `https://api.api-ninjas.com/v1/historicalevents?text=${userInput}`;
+        const imgUrl = `https://api.unsplash.com/photos/random?query=${userInput}&per_page=1&client_id=AiG33FsEn1tb1bcGUvDmXm7cQrIC6RsKaKh623pQ8Dc`
+        if(userInput.trim() === '') {
+            showAlert('Please enter name of a country or its city')
+        } else {
+            fetch(countryUrl, {
                 method: 'GET',
                 headers: {
                     'X-Api-Key': 'Aof+BUX/KoGO4Qilsx47mg==4m6ZlgtM09HzXxXf',
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
             })
-                .then((res) => res.json())
-                .then((event) => {
-                    Object.keys(searchResult).forEach(name => {
-                        searchResult[name].event = event[0];
-                    })
-                }) 
-                .catch((err) => alert(err))
+                .then(res => res.json())
+                .then(res => {  
+                    let className = res[0].capital;
+                    className = className.replace(/\s/g, '-');
+                    if (searchedPlace.includes(className)) {
+                        showAlert('You already have one search result for this country!')
+                    } else {
+                        searchedPlace.push(className);
+                        $clearButton.show();
+                        $resultContainer.prepend(cardGenerator(className, res))
+                        historyEventGenerator(historyEventURL, className);
+                        imgGenerator(imgUrl, className);
+                        cardCloseButtonGenerator(className, searchedPlace);
+                    }
+
+                })
+                .catch(() => {
+                    showAlert("We couldn't find the name of the country you were looking for, please try in a different way!");
+                })          
+
         } 
     }
-
-    function imgFinder() {
-        const imgUrl = `https://api.unsplash.com/photos/random?query=${``}&per_page=1&client_id=AiG33FsEn1tb1bcGUvDmXm7cQrIC6RsKaKh623pQ8Dc`
-
-        fetch(imgUrl)
-            .then(res => res.json())
-            .then(img => {
-                Object.keys(searchResult).forEach((name) => {
-                    searchResult[name].imgUrl = img.urls.regular;
-                })
-            })
-            .catch(err => alert(err))
-    }
 })
-
-
-
-    // $main.append(
-    //     `<div id="result-container"></div>`
-    // )
-    
-    // function resultGenerator() {
-    //     $resultContainer.append(
-    //         `<div class="card"></div>`
-    //     )
-    // }   
-
-
-    // function timeFinder() {
-    //     if (isValidSearch) {
-    //         const timeUrl = `https://api.api-ninjas.com/v1/worldtime?city=${userInput}`;
-
-    //             fetch(timeUrl, {
-    //                 method: 'GET',
-    //                 headers: {
-    //                     'X-Api-Key': 'Aof+BUX/KoGO4Qilsx47mg==4m6ZlgtM09HzXxXf',
-    //                     'Content-Type': 'application/json',
-    //                 },
-    //             })
-    //                 .then((res) => res.json())
-    //                 .then((time) => {
-    //                     Object.keys(searchedData).forEach((name) => {
-    //                         searchedData[name].time = time;
-    //                     })
-    //                 })
-    //                 .catch((err) => alert('No Info'))
-    //     }
-    // }
-
-
-
-    // function cityInfoFinder() {
-    //     if(!isCountryOrCapital) {
-    //         const cityUrl = `https://api.api-ninjas.com/v1/city?name=${userInput}`
-            
-    //         fetch(cityUrl, {
-    //             method: 'GET',
-    //             headers: {
-    //                 'X-Api-Key': 'Aof+BUX/KoGO4Qilsx47mg==4m6ZlgtM09HzXxXf',
-    //                 'Content-Type': 'application/json'
-    //             },
-    //         })
-    //             .then(res => res.json())
-    //             .then(res => {
-    //                 //countryInfoFinder(res[0].country)
-    //                 // console.log(searchedData)
-    //             })
-    //             .catch(err => {
-    //                 isValidSearch = false;
-    //                 alert(`The city or country you searched in doesn't match our data, please try it in a different way`)
-    //             });
-    //     }
-    // }
