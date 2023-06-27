@@ -26,16 +26,13 @@ footer {
     height: 15rem;
 }
 
-.card {
-    width: 31rem;
-}
-
 .card-header {
     height: 9rem;
 }
 
+
 .card-img-bottom {
-    height: 33rem;
+    height: 23rem;
     object-fit: cover;
 }
 
