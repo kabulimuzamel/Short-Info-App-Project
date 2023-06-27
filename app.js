@@ -6,7 +6,7 @@ $(document).ready(() => {
     const $clearButton = $('#clear-button');
     const $searchedInput = $('#searched-place');
     let userInput;
-    
+    //Commet
     $clearButton.hide();
 
     $searchButton.on('click', (e) => {
