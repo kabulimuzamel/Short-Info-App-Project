@@ -1,8 +1,21 @@
+body {
+    background-image: url("https://cdn.mos.cms.futurecdn.net/xcLR5HMU2kxskdAy3ZVuTf.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
 #result-container {
     position: relative;
 }
 
+.resultCard {
+    transition: transform 0.2s;
+}
 
+.resultCard:hover {
+    transform: scale(1.04);
+}
 
 .logo {
     height: 4rem;
@@ -32,7 +45,7 @@ footer {
 
 
 .card-img-bottom {
-    height: 23rem;
+    height: 26.625rem;
     object-fit: cover;
 }
 
@@ -47,6 +60,6 @@ footer {
 
 #clear-button {
     position: absolute;
-        top: 1px;
-        right: 10px;
+        top: -20px;
+        right: -20px;
 }

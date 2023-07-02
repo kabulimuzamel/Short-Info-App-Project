@@ -6,7 +6,7 @@ $(document).ready(() => {
     const $clearButton = $('#clear-button');
     const $searchedInput = $('#searched-place');
     let userInput;
-    //Commet
+
     $clearButton.hide();
 
     $searchButton.on('click', (e) => {
@@ -31,22 +31,29 @@ $(document).ready(() => {
         })
     }
 
+    //Try to break your card generator  into different variables
+    //card-text should be another variable 
+
+    
     function cardGenerator(className, res) {
-        return `<div class="card resultCard ${className}Card mx-3 my-3">
-                    <div class="row ${className}Row g-0">
-                        <div class="col-md-8">
-                            <div class='card-header overflow-auto'>
-                                <h2 class="card-title cardTitle${className}">${res[0].name}</h2>
-                                <button style='position: absolute; top: 10px; right: 10px' type="button" class='btn-close closeButton${className}' aria-label="Close"></button>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">
-                                    ${res[0].name}, located in ${res[0].region}, has a population of approximately ${(res[0].population / 1000).toFixed(3)} million and a population growth rate of ${res[0].pop_growth}%. The country spans a surface area of ${res[0].surface_area} square kilometers with a population density of ${res[0].pop_density} people per square kilometer. ${res[0].capital} serves as its capital city. ${res[0].name}'s GDP stands at ${(res[0].gdp / 1000).toFixed(3)} billion dollars, with a GDP growth rate of ${res[0].gdp_growth}%. The country's GDP per capita is ${res[0].gdp_per_capita}, and its currency is called the ${res[0].currency.name} (${res[0].currency.code}). The sex ratio is ${res[0].sex_ratio}, and the fertility rate is ${res[0].fertility}. Life expectancy for males is ${res[0].life_expectancy_male} years, while for females, it is ${res[0].life_expectancy_female} years. The unemployment rate in ${res[0].name} is ${res[0].unemployment}%, and the urban population constitutes ${res[0].urban_population}% of the total population. Forested areas cover ${res[0].forested_area}% of the country, and ${res[0].internet_users}% of the population uses the internet.
-                                </p>                        
-                            </div>
-                        </div>
-                    </div>
-                </div>`
+        const $resultCard = $(`<div class="card resultCard ${className}Card mx-3 my-3"></div>`)
+            const $resultCardRow = $(`<div class="row ${className}Row g-0"></div>`)
+                const $resultTextColumn = $(`<div class="col-xl-8"></div>`)
+                    const $resultCardHeader = $(`<div class='card-header overflow-auto'></div>`)
+                        const $cardHeaderTitle = $(`<h2 class="card-title cardTitle${className}">${res[0].name}</h2><button style='position: absolute; top: 10px; right: 10px' type="button" class='btn-close closeButton${className}' aria-label="Close"></button>`)  
+                    const $resultCardBody = $(`<div class="card-body"></div>`)
+                        const $cardBodyText = $(`<p class="card-text">
+                            ${res[0].name}, located in ${res[0].region}, has a population of approximately ${(res[0].population / 1000).toFixed(3)} million and a population growth rate of ${res[0].pop_growth}%. The country spans a surface area of ${res[0].surface_area} square kilometers with a population density of ${res[0].pop_density} people per square kilometer. ${res[0].capital} serves as its capital city. ${res[0].name}'s GDP stands at ${(res[0].gdp / 1000).toFixed(3)} billion dollars, with a GDP growth rate of ${res[0].gdp_growth}%. The country's GDP per capita is ${res[0].gdp_per_capita}, and its currency is called the ${res[0].currency.name} (${res[0].currency.code}). The sex ratio is ${res[0].sex_ratio}, and the fertility rate is ${res[0].fertility}. Life expectancy for males is ${res[0].life_expectancy_male} years, while for females, it is ${res[0].life_expectancy_female} years. The unemployment rate in ${res[0].name} is ${res[0].unemployment}%, and the urban population constitutes ${res[0].urban_population}% of the total population. Forested areas cover ${res[0].forested_area}% of the country, and ${res[0].internet_users}% of the population uses the internet.
+                        </p>`)
+
+        $resultCard.append($resultCardRow);
+        $resultCardRow.append($resultTextColumn);
+            $resultTextColumn.append($resultCardHeader);
+                $resultCardHeader.append($cardHeaderTitle);
+            $resultTextColumn.append($resultCardBody);
+                $resultCardBody.append($cardBodyText);
+
+        return $resultCard;
     }
 
     function historyEventGenerator(historyEventURL, className) {
@@ -73,7 +80,7 @@ $(document).ready(() => {
             .then((res) => res.json())
             .then((img) => {
                 $(`.${className}Row`).append(`
-                <div class="col-md-4">
+                <div class="col-xl-4">
                     <img src=${img.urls.regular} class="card-img-bottom"/>   
                 </div>
                 `)
@@ -129,3 +136,21 @@ $(document).ready(() => {
         } 
     }
 })
+
+
+
+        // return `<div class="card resultCard ${className}Card mx-3 my-3">
+        //             <div class="row ${className}Row g-0">
+        //                 <div class="col-xl-8">
+        //                     <div class='card-header overflow-auto'>
+        //                         <h2 class="card-title cardTitle${className}">${res[0].name}</h2>
+        //                         <button style='position: absolute; top: 10px; right: 10px' type="button" class='btn-close closeButton${className}' aria-label="Close"></button>
+        //                     </div>
+        //                     <div class="card-body">
+        //                         <p class="card-text">
+        //                             ${res[0].name}, located in ${res[0].region}, has a population of approximately ${(res[0].population / 1000).toFixed(3)} million and a population growth rate of ${res[0].pop_growth}%. The country spans a surface area of ${res[0].surface_area} square kilometers with a population density of ${res[0].pop_density} people per square kilometer. ${res[0].capital} serves as its capital city. ${res[0].name}'s GDP stands at ${(res[0].gdp / 1000).toFixed(3)} billion dollars, with a GDP growth rate of ${res[0].gdp_growth}%. The country's GDP per capita is ${res[0].gdp_per_capita}, and its currency is called the ${res[0].currency.name} (${res[0].currency.code}). The sex ratio is ${res[0].sex_ratio}, and the fertility rate is ${res[0].fertility}. Life expectancy for males is ${res[0].life_expectancy_male} years, while for females, it is ${res[0].life_expectancy_female} years. The unemployment rate in ${res[0].name} is ${res[0].unemployment}%, and the urban population constitutes ${res[0].urban_population}% of the total population. Forested areas cover ${res[0].forested_area}% of the country, and ${res[0].internet_users}% of the population uses the internet.
+        //                         </p>                        
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //         </div>`
