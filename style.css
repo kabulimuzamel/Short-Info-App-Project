@@ -1,8 +1,12 @@
 body {
-    background-image: url("https://cdn.mos.cms.futurecdn.net/xcLR5HMU2kxskdAy3ZVuTf.jpg");
+    background-image: url("https://images.ctfassets.net/cnu0m8re1exe/5rbmLp9h6Xk7WBETUO2Vui/bc9da4fdecc5ded795fa252b47d310b7/earth.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
+}
+
+.input-group {
+    margin-top: 600px;
 }
 
 #result-container {
@@ -14,7 +18,7 @@ body {
 }
 
 .resultCard:hover {
-    transform: scale(1.04);
+    transform: scale(1.01);
 }
 
 .logo {
@@ -43,15 +47,19 @@ footer {
     height: 9rem;
 }
 
+.factIcon {
+    cursor: pointer;
+}
 
 .card-img-bottom {
     height: 26.625rem;
     object-fit: cover;
 }
 
-.card-subtitle {
+.cardSub {
     font-weight: bold;
 }
+
 
 .icon {
     height: 2rem;
@@ -60,6 +68,7 @@ footer {
 
 #clear-button {
     position: absolute;
-        top: -20px;
-        right: -20px;
+        top: -45px;
+        right: 0;
+    font-size: small;
 }
