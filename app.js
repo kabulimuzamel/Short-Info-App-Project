@@ -14,12 +14,13 @@ $(document).ready(() => {
         e.preventDefault();
         userInput = $searchedInput.val();
         countryInfoFinder();
-        console.log(searchedPlace)
     });
 
     $clearButton.on('click', (e) => {
         e.preventDefault();
-        $('.resultCard').remove();
+        $('.resultCard').fadeOut('normal', () => {
+            $('.resultCard').remove()
+        })
         searchedPlace.length = 0;
         $inputGroup.css('margin-top', '600px')
         $searchedInput.val('')
@@ -55,7 +56,6 @@ $(document).ready(() => {
                 $resultCardHeader.append($cardHeaderTitle);
             $resultTextColumn.append($resultCardBody);
                 $resultCardBody.append($cardBodyText);
-
         return $resultCard;
     }
 
@@ -110,11 +110,13 @@ $(document).ready(() => {
     function cardCloseButtonGenerator(className, searchedPlace) {
         $(`.closeButton${className}`).on('click', (e) => {
             e.preventDefault()
-            $(`.${className}Card`).remove()
             searchedPlace.splice(
                 searchedPlace.indexOf(className),
                 1
             )
+            $(`.${className}Card`).fadeOut('normal', () => {
+                $(`.${className}Card`).remove()
+            })
         })
     }
 
@@ -140,7 +142,10 @@ $(document).ready(() => {
                     if (searchedPlace.includes(className)) {
                         showAlert('You already have one search result for this country!')
                     } else {
-                        $(`.input-group`).css('margin-top', '50px')
+                        $(`.input-group`).css({
+                            'margin-top': '50px',
+                            'transition': 'margin-top 2s'
+                        })
                         searchedPlace.push(className);
                         $clearButton.show();
                         $resultContainer.prepend(cardGenerator(className, res))
