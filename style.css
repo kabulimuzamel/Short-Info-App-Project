@@ -7,6 +7,7 @@ body {
 
 .headingOne {
     color: rgb(255, 255, 255);
+    font-size: 3rem;
 }
 
 .input-group {
@@ -65,8 +66,8 @@ footer {
 
 #clear-button {
     position: absolute;
-        top: -45px;
-        right: 0;
+        top: -105px;
+        right: 30px;
     font-size: small;
 }
 
@@ -76,11 +77,11 @@ footer {
     }
 
     50% {
-        transform: translate(100px);
+        transform: rotate(360deg);
     }
 
     75% {
-        transform: translate(-100px);
+        transform: rotate(-45deg);
     }
 
     100% {
@@ -90,14 +91,18 @@ footer {
 }
 
 .logo {
-    height: 4rem;
-    width: 4rem;
+    height: 3rem;
+    width: 3rem;
     position: relative;
     top: -8px;
-    animation-iteration-count: infinite;
 }
 
 .animate {
     animation-name: animation;
-    animation-duration: 4s;
+    animation-duration: 5s;
+}
+
+.search-history-icon {
+    width: 2rem;
+    height: 2rem;
 }

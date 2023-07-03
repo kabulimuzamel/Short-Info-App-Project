@@ -1,14 +1,22 @@
 $(document).ready(() => {
-    const searchedPlace = [];
+    const stateObj = {
+        searchedPlace: [],
+    }
+
     const $resultContainer = $('#result-container');
     const $searchBar = $('#search-bar');
     const $searchButton = $('#search-button');
     const $clearButton = $('#clear-button');
+    const $searchHistoryButton = $('#search-history-button');
+    const $searchHistoryModalCloseButton = $('#searchHistoryModalButton');
     const $searchedInput = $('#searched-place');
     const $inputGroup = $('.input-group');
+    const $searchHistoryModal = $('#searchHistoryModal');
+    const $searchHistoryList = $('.searchHistoryList');
     let userInput;
 
     $clearButton.hide();
+    $searchHistoryButton.hide();
 
     $searchButton.on('click', (e) => {
         e.preventDefault();
@@ -21,13 +29,31 @@ $(document).ready(() => {
         $('.resultCard').fadeOut('normal', () => {
             $('.resultCard').remove()
         })
-        searchedPlace.length = 0;
+        stateObj.searchedPlace.length = 0;
         $inputGroup.css('margin-top', '600px')
         $searchedInput.val('')
-        $clearButton.fadeOut('normal', () => {
-            $clearButton.hide();
-        });
+        $clearButton.fadeOut().hide()
     })
+
+    $searchHistoryButton.on('click', (e) => {
+        e.preventDefault();
+        $searchHistoryModal.fadeIn('normal', () => {
+            $searchHistoryModal.show()
+        })
+
+    })
+
+    $searchHistoryModalCloseButton.on('click', (e) => {
+        e.preventDefault();
+        $searchHistoryModal.fadeOut('normal', () => {
+            $searchHistoryModal.hide()
+        })
+    })
+
+
+    function searchHistoryGenerator() {
+        
+    }
 
     function showAlert(message) {
         $('#alertMessage').text(message)
@@ -127,7 +153,38 @@ $(document).ready(() => {
             $(`.${className}Card`).fadeOut('normal', () => {
                 $(`.${className}Card`).remove()
             })
+            if(searchedPlace.length === 0) {
+                $inputGroup.css('margin-top', '600px')
+                $searchedInput.val('')
+                $clearButton.fadeOut().hide();
+            }
         })
+    }
+
+    function fetchResult(historyEventURL, imgUrl, res) {
+        let className = res[0].iso2
+        className = className.replace(/\s/g, '-')
+        if (stateObj.searchedPlace.includes(className)) {
+            showAlert(
+                'You already have one search result for this country!'
+            )
+        } else {
+            $(`.input-group`).css({
+                'margin-top': '50px',
+                transition: 'margin-top 2s',
+            })
+            stateObj.searchedPlace.push(className)
+            $searchHistoryList.prepend(`<li>${res[0].name}</li>`)
+            $clearButton.show()
+            $searchHistoryButton.show()
+            $resultContainer.prepend(
+                cardGenerator(className, res).hide().fadeIn(500)
+            )
+            historyEventGenerator(historyEventURL, className)
+            imgGenerator(imgUrl, className)
+            cardCloseButtonGenerator(className, stateObj.searchedPlace)
+            factButton(className)
+        }         
     }
 
     function countryInfoFinder() {
@@ -135,40 +192,25 @@ $(document).ready(() => {
         const countryUrl = `https://api.api-ninjas.com/v1/country?name=${userInput}`;
         const historyEventURL = `https://api.api-ninjas.com/v1/historicalevents?text=${userInput}`;
         const imgUrl = `https://api.unsplash.com/photos/random?query=${userInput}&per_page=1&client_id=AiG33FsEn1tb1bcGUvDmXm7cQrIC6RsKaKh623pQ8Dc`
-        if(userInput.trim() === '') {
+        if (userInput.trim() === '') {
             showAlert('Please enter name of a country or its city')
         } else {
             fetch(countryUrl, {
                 method: 'GET',
                 headers: {
                     'X-Api-Key': 'Aof+BUX/KoGO4Qilsx47mg==4m6ZlgtM09HzXxXf',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
             })
-                .then(res => res.json())
-                .then(res => {  
-                    let className = res[0].iso2;
-                    className = className.replace(/\s/g, '-');
-                    if (searchedPlace.includes(className)) {
-                        showAlert('You already have one search result for this country!')
-                    } else {
-                        $(`.input-group`).css({
-                            'margin-top': '50px',
-                            'transition': 'margin-top 2s'
-                        })
-                        searchedPlace.push(className);
-                        $clearButton.show();
-                        $resultContainer.prepend(cardGenerator(className, res).hide().fadeIn(1000))
-                        historyEventGenerator(historyEventURL, className);
-                        imgGenerator(imgUrl, className);
-                        cardCloseButtonGenerator(className, searchedPlace);
-                        factButton(className);
-                    }
-
+                .then((res) => res.json())
+                .then((res) => {
+                    fetchResult(historyEventURL, imgUrl, res)
                 })
                 .catch(() => {
-                    showAlert("We couldn't find the name of the country you were looking for, please try in a different way!");
-                })          
-        } 
+                    showAlert(
+                        "We couldn't find the name of the country you were looking for, please try in a different way!"
+                    )
+                })
+        }  
     }
 })

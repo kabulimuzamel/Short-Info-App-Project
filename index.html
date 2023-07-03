@@ -18,14 +18,14 @@
     <header class="p-4">
         <nav>
             <div class="container d-flex align-items-center justify-content-between">
-                <img class="logo animate navbar-brand" src="https://img.icons8.com/?size=512&id=huXEI_cOP4-c&format=png" alt="">
+                <img class="logo animate navbar-brand" src="./assets/icons8-geography-50.png" alt="">
                 <h1 class="headingOne animate me-5">Short Info, Good to know!</h1>
                 <div></div>
             </div>
         </nav>
     </header>
     <main>
-        <div id="search-bar" class="container mt-5">
+        <div id="search-bar" class="container mt-5 animate">
             <form>
                 <div class="input-group">
                     <div class="form-floating">
@@ -33,13 +33,13 @@
                         <label for="text" class="form-label text-primary">Search the country or its city you want to know about!</label>
                     </div>
                     <button type="submit" id="search-button" class="btn btn-outline-primary"><img src="https://img.icons8.com/?size=512&id=44045&format=png" class="icon"></button>
+                    <button id="search-history-button" type="button" class="btn btn-outline-primary"><img class="search-history-icon" src="https://img.icons8.com/?size=512&id=48327&format=png" alt=""></button>
                 </div>
             </form>
         </div>
         <div id="result-container" class="container d-flex justify-content-center flex-wrap my-5">
-            <button id="clear-button" type="button" class="btn btn-outline-primary rounded-circle px-1 py-3">Clear All</button>
+            <button id="clear-button" type="button" class="btn btn-outline-danger rounded px-1 py-3">Clear All</button>
         </div>
-
         <div class="modal" id="alertModal" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -53,7 +53,19 @@
                 </div>
             </div>
         </div>
-
+        <div class="modal" id="searchHistoryModal" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Search History</h5>
+                        <button id="searchHistoryModalButton" class="btn-close" type="button" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="searchHistoryList"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </body>
 </html>
