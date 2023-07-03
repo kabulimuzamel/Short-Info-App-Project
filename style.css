@@ -5,6 +5,10 @@ body {
     background-attachment: fixed;
 }
 
+.headingOne {
+    color: rgb(255, 255, 255);
+}
+
 .input-group {
     margin-top: 600px;
 }
@@ -19,13 +23,6 @@ body {
 
 .resultCard:hover {
     transform: scale(1.01);
-}
-
-.logo {
-    height: 4rem;
-    width: 4rem;
-    position: relative;
-        top: -8px;
 }
 
 #search-bar {
@@ -71,4 +68,36 @@ footer {
         top: -45px;
         right: 0;
     font-size: small;
+}
+
+@keyframes animation {
+    25% {
+        transform: scale(1.2);
+    }
+
+    50% {
+        transform: translate(100px);
+    }
+
+    75% {
+        transform: translate(-100px);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
+
+.logo {
+    height: 4rem;
+    width: 4rem;
+    position: relative;
+    top: -8px;
+    animation-iteration-count: infinite;
+}
+
+.animate {
+    animation-name: animation;
+    animation-duration: 4s;
 }

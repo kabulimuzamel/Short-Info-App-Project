@@ -24,14 +24,20 @@ $(document).ready(() => {
         searchedPlace.length = 0;
         $inputGroup.css('margin-top', '600px')
         $searchedInput.val('')
-        $clearButton.hide();
+        $clearButton.fadeOut('normal', () => {
+            $clearButton.hide();
+        });
     })
 
     function showAlert(message) {
         $('#alertMessage').text(message)
-        $('#alertModal').modal('show')
+        $('#alertModal').fadeIn('normal', () => {
+            $('#alertModal').modal('show')
+        })
         $('.modalCloseButton').on('click', () => {
-            $('#alertModal').modal('hide')
+            $('#alertModal').fadeOut('normal', () => {
+                $('#alertModal').modal('hide')
+            })
         })
     }
   
@@ -83,9 +89,13 @@ $(document).ready(() => {
         $(`.${className}FactButton`).on('click', (e) => {
 			e.preventDefault()
             if($(`.${className}-card-subtitle`).is(`:hidden`)) {
-                $(`.${className}-card-subtitle`).show()
+                $(`.${className}-card-subtitle`).fadeIn('normal', () => {
+                    $(`.${className}-card-subtitle`).show()
+                })
             } else {
-                $(`.${className}-card-subtitle`).hide()
+                $(`.${className}-card-subtitle`).fadeOut('normal', () => {
+                    $(`.${className}-card-subtitle`).hide()
+                })
             }
 		})
     }
@@ -148,7 +158,7 @@ $(document).ready(() => {
                         })
                         searchedPlace.push(className);
                         $clearButton.show();
-                        $resultContainer.prepend(cardGenerator(className, res))
+                        $resultContainer.prepend(cardGenerator(className, res).hide().fadeIn(1000))
                         historyEventGenerator(historyEventURL, className);
                         imgGenerator(imgUrl, className);
                         cardCloseButtonGenerator(className, searchedPlace);
