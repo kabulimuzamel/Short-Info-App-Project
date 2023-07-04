@@ -106,3 +106,8 @@ footer {
     width: 2rem;
     height: 2rem;
 }
+
+.searchItem:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

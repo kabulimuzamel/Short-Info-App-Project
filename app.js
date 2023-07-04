@@ -13,6 +13,7 @@ $(document).ready(() => {
     const $inputGroup = $('.input-group');
     const $searchHistoryModal = $('#searchHistoryModal');
     const $searchHistoryList = $('.searchHistoryList');
+    const $headingOne = $('.headingOne');
     let userInput;
 
     $clearButton.hide();
@@ -32,7 +33,9 @@ $(document).ready(() => {
         stateObj.searchedPlace.length = 0;
         $inputGroup.css('margin-top', '600px')
         $searchedInput.val('')
+        $headingOne.fadeIn().removeClass('d-none')
         $clearButton.fadeOut().hide()
+
     })
 
     $searchHistoryButton.on('click', (e) => {
@@ -49,11 +52,6 @@ $(document).ready(() => {
             $searchHistoryModal.hide()
         })
     })
-
-
-    function searchHistoryGenerator() {
-        
-    }
 
     function showAlert(message) {
         $('#alertMessage').text(message)
@@ -126,7 +124,6 @@ $(document).ready(() => {
 		})
     }
 
-
     function hideFact(className) {
         $(`.${className}-card-subtitle`).hide()
     }
@@ -154,9 +151,10 @@ $(document).ready(() => {
                 $(`.${className}Card`).remove()
             })
             if(searchedPlace.length === 0) {
-                $inputGroup.css('margin-top', '600px')
-                $searchedInput.val('')
+                $inputGroup.css('margin-top', '600px');
+                $searchedInput.val('');
                 $clearButton.fadeOut().hide();
+                $headingOne.fadeIn().removeClass('d-none');
             }
         })
     }
@@ -174,12 +172,18 @@ $(document).ready(() => {
                 transition: 'margin-top 2s',
             })
             stateObj.searchedPlace.push(className)
-            $searchHistoryList.prepend(`<li>${res[0].name}</li>`)
+            $searchHistoryList.prepend(`<li class="${res[0].iso2}Search searchItem">${userInput}</li>`)
+            $(`.${res[0].iso2}Search`).on('click', () => {
+                $searchedInput.val(`${res[0].name}`)
+            })
             $clearButton.show()
             $searchHistoryButton.show()
             $resultContainer.prepend(
                 cardGenerator(className, res).hide().fadeIn(500)
             )
+            $headingOne.fadeOut('normal', () => {
+                $headingOne.addClass('d-none')
+            })
             historyEventGenerator(historyEventURL, className)
             imgGenerator(imgUrl, className)
             cardCloseButtonGenerator(className, stateObj.searchedPlace)
@@ -188,11 +192,9 @@ $(document).ready(() => {
     }
 
     function countryInfoFinder() {
-        userInput = encodeURIComponent(userInput)
-        const countryUrl = `https://api.api-ninjas.com/v1/country?name=${userInput}`;
-        const historyEventURL = `https://api.api-ninjas.com/v1/historicalevents?text=${userInput}`;
-        const imgUrl = `https://api.unsplash.com/photos/random?query=${userInput}&per_page=1&client_id=AiG33FsEn1tb1bcGUvDmXm7cQrIC6RsKaKh623pQ8Dc`
-        if (userInput.trim() === '') {
+        let encodedUserInput = encodeURIComponent(userInput)
+        const countryUrl = `https://api.api-ninjas.com/v1/country?name=${encodedUserInput}`
+        if (encodedUserInput.trim() === '') {
             showAlert('Please enter name of a country or its city')
         } else {
             fetch(countryUrl, {
@@ -204,6 +206,8 @@ $(document).ready(() => {
             })
                 .then((res) => res.json())
                 .then((res) => {
+                    const historyEventURL = `https://api.api-ninjas.com/v1/historicalevents?text=${res[0].iso2}`;
+                    const imgUrl = `https://api.unsplash.com/photos/random?query=${res[0].name}&per_page=1&client_id=AiG33FsEn1tb1bcGUvDmXm7cQrIC6RsKaKh623pQ8Dc`
                     fetchResult(historyEventURL, imgUrl, res)
                 })
                 .catch(() => {
