@@ -174,7 +174,7 @@ $(document).ready(() => {
             stateObj.searchedPlace.push(className)
             $searchHistoryList.prepend(`<li class="${res[0].iso2}Search searchItem">${userInput}</li>`)
             $(`.${res[0].iso2}Search`).on('click', () => {
-                $searchedInput.val(`${res[0].name}`)
+                $searchedInput.val($(`.${res[0].iso2}Search`).text())
             })
             $clearButton.show()
             $searchHistoryButton.show()
