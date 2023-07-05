@@ -68,31 +68,31 @@ $(document).ready(() => {
         const $resultCard = $(
             `<div class="card resultCard ${className}Card mx-3 my-3 position-relative"></div>`
         )
-            const $closeCardButton = $(
-                `<button style='top: 10px; right: 20px' type="button" class='btn-close closeButton${className} position-absolute' aria-label="Close"></button>`
-            )
-            const $resultCardRow = $(`<div class="row ${className}Row g-0"></div>`)
-                const $resultTextColumn = $(`<div class="col-xl-8"></div>`)
-                    const $resultCardHeader = $(`<div class='card-header overflow-auto'></div>`)
-                        const $cardHeaderTitle = $(
-                            `<h2 class="card-title cardTitle${className}">${res[0].name}</h2>
-                            <img class='${className}FactButton factIcon'
-                            src='https://img.icons8.com/?size=512&id=XBJfETMfZHpS&format=png' style='height:2rem; width:2rem;'/>`
-                        )  
-                    const $resultCardBody = $(`<div class="card-body"></div>`)
-                        const $cardBodyText = $(
-                            `<p class="card-text">
-                                <b>${res[0].name}</b>, located in <b>${res[0].region}</b>, has a population of approximately <b>${(res[0].population / 1000).toFixed(3)} million</b> and a population growth rate of <b>${res[0].pop_growth}%</b>. The country spans a surface area of <b>${res[0].surface_area} square kilometers</b> with a population density of <b>${res[0].pop_density} people per square kilometer</b>. <b>${res[0].capital}</b> serves as its capital city. <b>${res[0].name}'s GDP</b> stands at <b>${(res[0].gdp / 1000).toFixed(3)} billion dollars</b>, with a GDP growth rate of <b>${res[0].gdp_growth}%</b>. The country's GDP per capita is <b>${res[0].gdp_per_capita}</b>, and its currency is called the <b>${res[0].currency.name} (${res[0].currency.code})</b>. The sex ratio is <b>${res[0].sex_ratio}</b>, and the fertility rate is <b>${res[0].fertility}</b>. Life expectancy for males is <b>${res[0].life_expectancy_male} years</b>, while for females, it is <b>${res[0].life_expectancy_female} years</b>. The unemployment rate in <b>${res[0].name}</b> is <b>${res[0].unemployment}%</b>, and the urban population constitutes <b>${res[0].urban_population}%</b> of the total population. Forested areas cover <b>${res[0].forested_area}%</b> of the country, and <b>${res[0].internet_users}% of the population</b> uses the internet.
-                            </p>`
-                        )
+        const $closeCardButton = $(
+            `<button style='top: 10px; right: 20px' type="button" class='btn-close closeButton${className} position-absolute' aria-label="Close"></button>`
+        )
+        const $resultCardRow = $(`<div class="row ${className}Row g-0"></div>`)
+        const $resultTextColumn = $(`<div class="col-xl-8"></div>`)
+        const $resultCardHeader = $(`<div class='card-header overflow-auto'></div>`)
+        const $cardHeaderTitle = $(
+            `<h2 class="card-title cardTitle${className}">${res[0].name}</h2>
+            <img class='${className}FactButton factIcon'
+            src='https://img.icons8.com/?size=512&id=XBJfETMfZHpS&format=png' style='height:2rem; width:2rem;'/>`
+        )  
+        const $resultCardBody = $(`<div class="card-body"></div>`)
+        const $cardBodyText = $(
+            `<p class="card-text">
+                <b>${res[0].name}</b>, located in <b>${res[0].region}</b>, has a population of approximately <b>${(res[0].population / 1000).toFixed(3)} million</b> and a population growth rate of <b>${res[0].pop_growth}%</b>. The country spans a surface area of <b>${res[0].surface_area} square kilometers</b> with a population density of <b>${res[0].pop_density} people per square kilometer</b>. <b>${res[0].capital}</b> serves as its capital city. <b>${res[0].name}'s GDP</b> stands at <b>${(res[0].gdp / 1000).toFixed(3)} billion dollars</b>, with a GDP growth rate of <b>${res[0].gdp_growth}%</b>. The country's GDP per capita is <b>${res[0].gdp_per_capita}</b>, and its currency is called the <b>${res[0].currency.name} (${res[0].currency.code})</b>. The sex ratio is <b>${res[0].sex_ratio}</b>, and the fertility rate is <b>${res[0].fertility}</b>. Life expectancy for males is <b>${res[0].life_expectancy_male} years</b>, while for females, it is <b>${res[0].life_expectancy_female} years</b>. The unemployment rate in <b>${res[0].name}</b> is <b>${res[0].unemployment}%</b>, and the urban population constitutes <b>${res[0].urban_population}%</b> of the total population. Forested areas cover <b>${res[0].forested_area}%</b> of the country, and <b>${res[0].internet_users}% of the population</b> uses the internet.
+            </p>`
+        )
 
         $resultCard.append($resultCardRow);
         $resultCard.append($closeCardButton);
         $resultCardRow.append($resultTextColumn);
-            $resultTextColumn.append($resultCardHeader);
-                $resultCardHeader.append($cardHeaderTitle);
-            $resultTextColumn.append($resultCardBody);
-                $resultCardBody.append($cardBodyText);
+        $resultTextColumn.append($resultCardHeader);
+        $resultCardHeader.append($cardHeaderTitle);
+        $resultTextColumn.append($resultCardBody);
+        $resultCardBody.append($cardBodyText);
         return $resultCard;
     }
 
