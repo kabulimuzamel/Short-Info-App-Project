@@ -4,7 +4,6 @@ $(document).ready(() => {
     }
 
     const $resultContainer = $('#result-container');
-    const $searchBar = $('#search-bar');
     const $searchButton = $('#search-button');
     const $clearButton = $('#clear-button');
     const $searchHistoryButton = $('#search-history-button');
@@ -18,7 +17,7 @@ $(document).ready(() => {
 
     $clearButton.hide();
     $searchHistoryButton.hide();
-
+    $('[data-toggle="tooltip"]').tooltip();
     $searchButton.on('click', (e) => {
         e.preventDefault();
         userInput = $searchedInput.val();
@@ -31,7 +30,7 @@ $(document).ready(() => {
             $('.resultCard').remove()
         })
         stateObj.searchedPlace.length = 0;
-        $inputGroup.css('margin-top', '600px')
+        $inputGroup.css('margin-top', '100px')
         $searchedInput.val('')
         $headingOne.fadeIn().removeClass('d-none')
         $clearButton.fadeOut().hide()
@@ -151,7 +150,7 @@ $(document).ready(() => {
                 $(`.${className}Card`).remove()
             })
             if(searchedPlace.length === 0) {
-                $inputGroup.css('margin-top', '600px');
+                $inputGroup.css('margin-top', '100px');
                 $searchedInput.val('');
                 $clearButton.fadeOut().hide();
                 $headingOne.fadeIn().removeClass('d-none');
@@ -172,8 +171,10 @@ $(document).ready(() => {
                 transition: 'margin-top 2s',
             })
             stateObj.searchedPlace.push(className)
-            $searchHistoryList.prepend(`<li class="${res[0].iso2}Search searchItem">${userInput}</li>`)
-            $(`.${res[0].iso2}Search`).on('click', () => {
+            if(!$(`.searchHistoryList li:contains("${userInput.toLowerCase()}")`).length > 0) {
+                $searchHistoryList.prepend(`<li class="${res[0].iso2}Search searchItem">${userInput.toLowerCase()}</li>`)
+            }
+            $(`.${res[0].capital}Search`).on('click', () => {
                 $searchedInput.val($(`.${res[0].iso2}Search`).text())
             })
             $clearButton.show()
@@ -194,6 +195,8 @@ $(document).ready(() => {
     function countryInfoFinder() {
         let encodedUserInput = encodeURIComponent(userInput)
         const countryUrl = `https://api.api-ninjas.com/v1/country?name=${encodedUserInput}`
+        const historyEventURL = `https://api.api-ninjas.com/v1/historicalevents?text=${encodedUserInput}`;
+        const imgUrl = `https://api.unsplash.com/photos/random?query=${encodedUserInput}&per_page=1&client_id=AiG33FsEn1tb1bcGUvDmXm7cQrIC6RsKaKh623pQ8Dc`
         if (encodedUserInput.trim() === '') {
             showAlert('Please enter name of a country or its city')
         } else {
@@ -206,8 +209,6 @@ $(document).ready(() => {
             })
                 .then((res) => res.json())
                 .then((res) => {
-                    const historyEventURL = `https://api.api-ninjas.com/v1/historicalevents?text=${res[0].iso2}`;
-                    const imgUrl = `https://api.unsplash.com/photos/random?query=${res[0].name}&per_page=1&client_id=AiG33FsEn1tb1bcGUvDmXm7cQrIC6RsKaKh623pQ8Dc`
                     fetchResult(historyEventURL, imgUrl, res)
                 })
                 .catch(() => {
