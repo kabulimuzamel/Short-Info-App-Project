@@ -180,10 +180,10 @@ $(document).ready(() => {
             })
             stateObj.searchedPlace.push(className)
             if(!$(`.searchHistoryList li:contains("${userInput.toLowerCase()}")`).length > 0) {
-                $searchHistoryList.prepend(`<li class="${res[0].iso2}Search searchItem">${userInput.toLowerCase()}</li>`)
+                $searchHistoryList.prepend(`<li class="${res[0].capital}Search searchItem">${userInput.toLowerCase()}</li>`)
             }
             $(`.${res[0].capital}Search`).on('click', () => {
-                $searchedInput.val($(`.${res[0].iso2}Search`).text())
+                $searchedInput.val($(`.${res[0].capital}Search`).text())
             })
             $clearButton.show()
             $searchHistoryButton.show()
@@ -201,7 +201,7 @@ $(document).ready(() => {
     }
 
     function countryInfoFinder() {
-        let encodedUserInput = encodeURIComponent(userInput)
+        let encodedUserInput = encodeURIComponent(userInput) 
         const countryUrl = `https://api.api-ninjas.com/v1/country?name=${encodedUserInput}`
         const historyEventURL = `https://api.api-ninjas.com/v1/historicalevents?text=${encodedUserInput}`;
         const imgUrl = `https://api.unsplash.com/photos/random?query=${encodedUserInput}&per_page=1&client_id=AiG33FsEn1tb1bcGUvDmXm7cQrIC6RsKaKh623pQ8Dc`
