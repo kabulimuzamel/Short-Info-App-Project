@@ -13,6 +13,8 @@ $(document).ready(() => {
     const $searchHistoryModal = $('#searchHistoryModal');
     const $searchHistoryList = $('.searchHistoryList');
     const $headingOne = $('.headingOne');
+    const $spinner = $('#spinner');
+    $spinner.removeClass('loader')
     let userInput;
 
     $clearButton.hide();
@@ -20,6 +22,7 @@ $(document).ready(() => {
     $('[data-toggle="tooltip"]').tooltip();
     $searchButton.on('click', (e) => {
         e.preventDefault();
+        $spinner.addClass('loader');
         userInput = $searchedInput.val();
         countryInfoFinder();
     });
@@ -167,6 +170,7 @@ $(document).ready(() => {
     }
 
     function fetchResult(historyEventURL, imgUrl, res) {
+        $spinner.removeClass('loader');
         let className = res[0].iso2
         className = className.replace(/\s/g, '-')
         if (stateObj.searchedPlace.includes(className)) {
@@ -217,7 +221,7 @@ $(document).ready(() => {
             })
                 .then((res) => res.json())
                 .then((res) => {
-                    fetchResult(historyEventURL, imgUrl, res)
+                    fetchResult(historyEventURL, imgUrl, res);
                 })
                 .catch(() => {
                     showAlert(
