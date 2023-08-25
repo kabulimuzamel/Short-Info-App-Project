@@ -133,3 +133,13 @@ footer {
         transform: rotate(360deg);
     }
 }
+
+@media (max-width: 850px) {
+    #search-bar {
+        font-size: smaller;
+        width: 80%;
+    }
+    .titleTop {
+        margin-left: 1rem;
+    }
+}
